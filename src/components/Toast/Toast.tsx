@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import {
   AlertOctagon,
   AlertTriangle,
@@ -18,14 +18,18 @@ const ICONS_BY_VARIANT = {
   error: AlertOctagon,
 };
 
-function Toast() {
+interface ToastProps extends PropsWithChildren {
+  variant: keyof typeof ICONS_BY_VARIANT
+}
+
+function Toast({ children }: ToastProps) {
   return (
     <div className={`${styles.toast} ${styles.notice}`}>
       <div className={styles.iconContainer}>
         <Info size={24} />
       </div>
       <p className={styles.content}>
-        16 photos have been uploaded
+        {children}
       </p>
       <button className={styles.closeButton}>
         <X size={24} />
