@@ -26,6 +26,10 @@ function ToastPlayground() {
   function handleCreateToast(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
+    if (!message) {
+      return
+    }
+
     createNewToast({
       message,
       variant

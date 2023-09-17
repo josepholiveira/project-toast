@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Variants } from '../ToastPlayground';
+import { useEscapeKey } from '@/hooks/useEscapeKey';
 
 export type IToast = {
   id: string;
@@ -22,10 +23,10 @@ export const ToastContext = React.createContext({} as ToastContextProps)
 
 function ToastProvider({ children }: React.PropsWithChildren) {
   const [toasts, setToasts] = React.useState([] as IToast[]);
+
+  useEscapeKey(() => setToasts([]))
   
   function createNewToast({ variant, message }: CreateNewToastProps) {
-    if(!message) return
-
     const newToast = {
       id: crypto.randomUUID(),
       variant,

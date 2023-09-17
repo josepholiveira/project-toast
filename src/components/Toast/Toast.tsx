@@ -34,11 +34,16 @@ function Toast({ children, id, variant }: ToastProps) {
         {<Icon />}
       </div>
       <p className={styles.content}>
+        <VisuallyHidden>{variant} -</VisuallyHidden>
         {children}
       </p>
-      <button className={styles.closeButton} onClick={() => handleDismissToast(id)}>
+      <button 
+        className={styles.closeButton} 
+        onClick={() => handleDismissToast(id)} 
+        aria-label="Dismiss message"
+        aria-live="off"
+      >
         <X size={24} />
-        <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>
     </div>
   );
