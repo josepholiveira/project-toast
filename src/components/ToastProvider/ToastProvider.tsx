@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Variants } from '../ToastPlayground';
-import { useEscapeKey } from '@/hooks/useEscapeKey';
+import { useKeydown } from '@/hooks/useKeyDown';
 
 export type IToast = {
   id: string;
@@ -24,7 +24,7 @@ export const ToastContext = React.createContext({} as ToastContextProps)
 function ToastProvider({ children }: React.PropsWithChildren) {
   const [toasts, setToasts] = React.useState([] as IToast[]);
 
-  useEscapeKey(() => setToasts([]))
+  useKeydown('Escape', () => setToasts([]))
   
   function createNewToast({ variant, message }: CreateNewToastProps) {
     const newToast = {
