@@ -19,11 +19,12 @@ const ICONS_BY_VARIANT = {
 };
 
 interface ToastProps extends PropsWithChildren {
+  id: string;
   variant: keyof typeof ICONS_BY_VARIANT
-  onClose: () => void
+  handleDismissToast: (id: string) => void
 }
 
-function Toast({ children, variant, onClose }: ToastProps) {
+function Toast({ children, id, variant, handleDismissToast }: ToastProps) {
   const Icon = ICONS_BY_VARIANT[variant]
 
   return (
@@ -34,7 +35,7 @@ function Toast({ children, variant, onClose }: ToastProps) {
       <p className={styles.content}>
         {children}
       </p>
-      <button className={styles.closeButton} onClick={onClose}>
+      <button className={styles.closeButton} onClick={() => handleDismissToast(id)}>
         <X size={24} />
         <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>

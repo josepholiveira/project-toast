@@ -1,27 +1,48 @@
 import React, { FormEvent } from 'react';
 
 import Button from '../Button';
-import Toast from '../Toast'
+import ToastShelf from '../ToastShelf'
 import styles from './ToastPlayground.module.css';
 
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'] as const;
 
 type Variants = typeof VARIANT_OPTIONS[number]
 
+export type IToast = {
+  id: string;
+  variant: Variants;
+  message: string;
+}
+
+const INITIAL_VARIANT = 'notice'
+
 function ToastPlayground() {
   const [message, setMessage] = React.useState('')
-  const [variant, setVariant] = React.useState<Variants>('notice')
+  const [variant, setVariant] = React.useState<Variants>(INITIAL_VARIANT)
 
-  const [isToastVisible, setIsToastVisible] = React.useState(false)
+  const [toasts, setToasts] = React.useState([] as IToast[]);
 
   function handleCreateToast(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    setIsToastVisible(true)
+    if(!message) return
+
+    const newToast = {
+      id: crypto.randomUUID(),
+      variant,
+      message,
+    }
+
+    setToasts(toasts => [...toasts, newToast])
+    setMessage('')
+
+    setVariant(INITIAL_VARIANT)
   }
 
-  function handleCloseToast() {
-    setIsToastVisible(false)
+  function handleDismissToast(id: string) {
+    const filteredToasts = toasts.filter(toast => toast.id !== id) 
+
+    setToasts(filteredToasts)
   }
 
   return (
@@ -31,11 +52,7 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      {isToastVisible && (
-        <Toast variant={variant} onClose={handleCloseToast}>
-          {message}
-        </Toast>
-      )}
+      <ToastShelf toasts={toasts} handleDismissToast={handleDismissToast} />
 
       <form onSubmit={handleCreateToast} className={styles.controlsWrapper}>
         <div className={styles.row}>
