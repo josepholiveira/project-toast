@@ -6,16 +6,14 @@ import { IToast } from '../ToastPlayground';
 
 interface ToastShelfProps {
   toasts: IToast[]
-  handleDismissToast: (id: string) => void
 }
 
-function ToastShelf({ toasts, handleDismissToast }: ToastShelfProps) {
+function ToastShelf({ toasts }: ToastShelfProps) {
   return (
     <ol className={styles.wrapper}>
       {toasts.map(toast => (
         <li className={styles.toastWrapper} key={toast.id}>
           <Toast 
-            handleDismissToast={handleDismissToast} 
             id={toast.id} 
             variant={toast.variant}
           >

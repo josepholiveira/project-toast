@@ -10,6 +10,7 @@ import {
 import VisuallyHidden from '../VisuallyHidden';
 
 import styles from './Toast.module.css';
+import { useToasts } from '../ToastProvider';
 
 const ICONS_BY_VARIANT = {
   notice: Info,
@@ -21,10 +22,10 @@ const ICONS_BY_VARIANT = {
 interface ToastProps extends PropsWithChildren {
   id: string;
   variant: keyof typeof ICONS_BY_VARIANT
-  handleDismissToast: (id: string) => void
 }
 
-function Toast({ children, id, variant, handleDismissToast }: ToastProps) {
+function Toast({ children, id, variant }: ToastProps) {
+  const { handleDismissToast } = useToasts()
   const Icon = ICONS_BY_VARIANT[variant]
 
   return (
@@ -42,5 +43,6 @@ function Toast({ children, id, variant, handleDismissToast }: ToastProps) {
     </div>
   );
 }
+
 
 export default Toast;
