@@ -20,18 +20,21 @@ const ICONS_BY_VARIANT = {
 
 interface ToastProps extends PropsWithChildren {
   variant: keyof typeof ICONS_BY_VARIANT
+  onClose: () => void
 }
 
-function Toast({ children }: ToastProps) {
+function Toast({ children, variant, onClose }: ToastProps) {
+  const Icon = ICONS_BY_VARIANT[variant]
+
   return (
-    <div className={`${styles.toast} ${styles.notice}`}>
+    <div className={`${styles.toast} ${styles[variant]}`}>
       <div className={styles.iconContainer}>
-        <Info size={24} />
+        {<Icon />}
       </div>
       <p className={styles.content}>
         {children}
       </p>
-      <button className={styles.closeButton}>
+      <button className={styles.closeButton} onClick={onClose}>
         <X size={24} />
         <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>
